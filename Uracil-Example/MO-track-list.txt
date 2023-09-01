@@ -1,0 +1,6 @@
+step-1 single MO file
+step-2 Consistent with previous step
+step-3 Consistent with previous step
+step-4 Consistent with previous step
+step-5 Consistent with previous step
+step-6 Warning: potential change in active space!

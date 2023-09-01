@@ -1,0 +1,61 @@
+>> EXPORT MOLCAS_MOLDEN=ON
+>>> COPY $InpDir/$Project.xyz $WorkDir
+>>> COPY $InpDir/$Project.velocity.xyz $WorkDir
+>>> COPY $InpDir/$Project.JobIph $WorkDir/$Project.JobOld
+&GATEWAY
+        coord = $Project.xyz
+        basis = 6-31G*
+        group = NoSym
+        RICD
+
+***********
+* This script removes previous 
+* MO track data, iter-A.RasOrb, and md.energies
+***********
+>> shell $InpDir/restart-clean-up.sh
+***********
+
+>>> Foreach A in (1..{your selection})
+&SEWARD
+   DOANA
+&RASSCF
+jobiph
+cirestart
+charge = {your selection}
+spin = {your selection}
+nactel = {your selection}
+ras2 = {your selection}
+inactive={your selection}
+ciroot = {your selection}
+mdrlxr = {your selection}
+>>> COPY $Project.JobIph $Project.JobOld
+
+**********
+* Copy of previous step RasOrb
+* for comparison with current step
+*********
+>>> COPY $Project.RasOrb $InpDir/$Project-iter-$A.RasOrb
+*********
+
+&ALASKA
+
+&DYNAMIX
+ VELVer
+ DT = 41.322314
+ VELO = 1
+ THER = 0
+
+*********
+* Initiation of comparison
+*********
+>>> shell $InpDir/Track-MO-handler.sh
+********
+
+>>> EndDo
+
+
+
+
+
+
+
